@@ -1,19 +1,19 @@
 
-import mongoose from "mongoose";
+  import mongoose from "mongoose";
 
-const traceSchema = new mongoose.Schema(
-  {
-    traceId: {
-      type: String,
-      required: true,
-      unique: true,
+  const traceSchema = new mongoose.Schema(
+    {
+      traceId: {
+        type: String,
+        required: true,
+        unique: true,
+      },
+      method: String,
+      url: String,
+      statusCode: Number,
+      responseTime: Number,
     },
-    method: String,
-    url: String,
-    statusCode: Number,
-    responseTime: Number,
-  },
-  { timestamps: true }
-);
+    { timestamps: true }
+  );
 
-export default mongoose.model("Trace", traceSchema);
+  export default mongoose.model("Trace", traceSchema);
