@@ -21,14 +21,12 @@ const userSchema = new mongoose.Schema(
     },
     apiKey: {
       type: String,
-      required: true,
-      unique: true,
-      index: true,
+      unique: true, // Ensure API keys are unique
     },
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 export default mongoose.model("User", userSchema);
