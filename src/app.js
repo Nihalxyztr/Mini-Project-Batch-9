@@ -10,4 +10,10 @@ app.use(tracingMiddleware);
 app.use("/", gatewayRoutes);
 app.use("/api", userRoutes);
 
+const loggerMiddleware = require("./middleware/logger.middleware");
+const rateLimiter = require("./middleware/rateLimit.middleware");
+
+app.use(loggerMiddleware);
+app.use(rateLimiter);
+
 export default app;
