@@ -27,4 +27,4 @@ const rateLimiter = (req, res, next) => {
   next();
 };
 
-module.exports = rateLimiter;
+export default rateLimiter;

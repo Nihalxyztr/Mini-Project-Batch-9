@@ -1,8 +1,8 @@
-const logger = require("../utils/logger");
+import logger from "../utils/logger.js";
 
 const loggerMiddleware = (req, res, next) => {
-  logger.info(`${req.method} ${req.url} - ${req.ip}`);
+  logger.info(`[${req.traceId}] ${req.method} ${req.url} - ${req.ip}`);
   next();
 };
 
-module.exports = loggerMiddleware;
+export default loggerMiddleware;
