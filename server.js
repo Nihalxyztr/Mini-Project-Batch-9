@@ -74,3 +74,50 @@ const gatewayHandler = async (req, res) => {
     });
   }
 };
+app.get("/logs/:traceId", logsLimiter, async (req, res) => {
+  const { traceId } = req.params;
+
+  try {
+    const logs = await Log.find({ traceId }).sort({ createdAt: 1 });
+    if (logs.length === 0) {
+      return res.status(404).json({
+        message: "No logs found for this traceId",
+      });
+    }
+
+    const steps = logs.map((log) => ({
+      service: log.service,
+      status: log.status,
+    }));
+
+    let failedAt = null;
+    for (let log of logs) {
+      if (log.status === "failure") {
+        failedAt = log.service;
+        break;
+      }
+    }
+
+    const overallStatus = failedAt ? "failure" : "success";
+    return res.json({
+      traceId,
+      status: overallStatus,
+      failedAt,
+      steps,
+    });
+
+    // return res.json({ logs });
+  } catch (error) {
+    return res.status(500).json({
+      traceId,
+      status: "failure",
+      message: error.message,
+    });
+  }
+});
+app.use("/:service", gatewayHandler);
+
+app.listen(port, () => {
+  console.log(`Server running on ${port}`);
+  connectDB();
+});
